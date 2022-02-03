@@ -1,7 +1,13 @@
+// DATA
 const data = [
     {
         name: "market street",
         url: "/north-america/canada/montreal/market-street",
+        children: [],
+    },
+    {
+        name: "4b",
+        url: "/north-america/canada/montreal/market-street/4b",
         children: [],
     },
     {
@@ -77,6 +83,7 @@ const data = [
     },
 ];
 
+// FUNCTIONS
 const sortDataPerLevel = (data) =>
     data.reduce((dataPerLevel, item) => {
         const i = item.url.slice(1).split("/").length;
@@ -90,11 +97,6 @@ const sortDataPerLevel = (data) =>
         return dataPerLevel;
     }, {});
 
-const addChildren = (item, children) =>
-    children.forEach((ch) => {
-        item.children.push(ch);
-        ch.parent = item;
-    });
 const nestData = (data) => {
     const entries = Object.entries(data);
 
@@ -106,14 +108,18 @@ const nestData = (data) => {
                 const children = nextLevelItems.filter(({ url }) =>
                     url.startsWith(it.url)
                 );
-                addChildren(it, children);
+                children.forEach((ch) => {
+                    it.children.push(ch);
+                    ch.parent = it;
+                });
             }
         });
     });
+
+    return Object.values(data)[0];
 };
 
 const dataPerLevel = sortDataPerLevel(data);
-nestData(dataPerLevel);
+const newData = nestData(dataPerLevel);
 
-const test = Object.values(dataPerLevel)[0];
-console.log(test);
+console.log(newData);
