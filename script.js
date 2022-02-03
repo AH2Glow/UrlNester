@@ -83,7 +83,7 @@ const data = [
     },
 ];
 
-// FUNCTIONS
+// FUNCTIONS - Refactor, so that the original data is not adjusted in place
 const sortDataPerLevel = (data) =>
     data.reduce((dataPerLevel, item) => {
         const i = item.url.slice(1).split("/").length;
@@ -98,7 +98,7 @@ const sortDataPerLevel = (data) =>
     }, {});
 
 const nestData = (data) => {
-    const entries = Object.entries(data);
+    const entries = Object.entries(data); // Sort this array, since the order of items in an object might be unexpected
 
     entries.forEach(([i, items]) => {
         items.forEach((it) => {
